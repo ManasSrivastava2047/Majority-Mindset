@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option Descriptions</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: #555;
+            margin-top: 1rem;
+        }
+
+        h4 {
+            font-size: 1.5rem;
+            color: #777;
+            margin-top: 0.5rem;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Option Descriptions</h1>
+
+    <div id="option-descriptions"></div>
+
+    <button class="back-button" onclick="window.location.href='state.html'">Back to Dashboard</button>
+
+    <script>
+        // Fetch option descriptions from the server
+        fetch('http://localhost:5500/api/get-options?qid=1')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const descriptionsContainer = document.getElementById('option-descriptions');
+                    descriptionsContainer.innerHTML = `
+                        <h2>Option A</h2>
+                        <h4>${data.options.OA}</h4>
+                        <h2>Option B</h2>
+                        <h4>${data.options.OB}</h4>
+                        <h2>Option C</h2>
+                        <h4>${data.options.OC}</h4>
+                        <h2>Option D</h2>
+                        <h4>${data.options.OD}</h4>
+                        <h2>Description A</h2>
+                        <h4>${data.options.DA}</h4>
+                        <h2>Description B</h2>
+                        <h4>${data.options.DB}</h4>
+                        <h2>Description C</h2>
+                        <h4>${data.options.DC}</h4>
+                        <h2>Description D</h2>
+                        <h4>${data.options.DD}</h4>
+                    `;
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => {
+                console.error('Error fetching option descriptions:', err);
+                alert('An error occurred while fetching option descriptions. Please try again.');
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Your Option</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container label {
+            font-size: 1rem;
+            color: #555;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-container input, .form-container textarea {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-container input:focus, .form-container textarea:focus {
+            outline: none;
+            border-color: #2196F3;
+            box-shadow: 0 0 5px rgba(33, 150, 243, 0.5);
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #2196F3;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .form-container button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Your Option</h1>
+    <div class="form-container">
+        <form>
+            <input type="hidden" id="qid" name="qid" value="3">
+            <label for="option">Enter Option</label>
+            <input type="text" id="option" name="option" placeholder="Enter Option" required>
+        
+            <label for="description">Enter Description</label>
+            <textarea id="description" name="description" rows="4" placeholder="Add your Description" required></textarea>
+        
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.querySelector('.form-container form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            const option = document.getElementById('option').value;
+            const description = document.getElementById('description').value;
+            const qid = document.getElementById('qid').value; // Get the qid value
+    
+            fetch('http://localhost:5500/api/add-option', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ option, description, qid }) // Include qid in the request body
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Option and description added successfully
+                    alert(data.message); // Show success message
+                    window.location.href = 'dashboard2.html'; // Redirect to dashboard2
+                } else {
+                    // Handle the case where no available option or description
+                    alert(data.message); // Show error message
+                    window.location.href = 'dashboard2.html'; // Redirect back to dashboard2
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('An error occurred while submitting your option. Please try again.');
+                window.location.href = 'dashboard2.html'; // Redirect back to dashboard2
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Which Country to Visit? (Question 1)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1.5rem;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .option {
+            padding: 0.75rem;
+            text-align: center;
+            background: linear-gradient(135deg, #2196F3, #21CBF3);
+            color: white;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            text-decoration: none;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background: linear-gradient(135deg, #1976D2, #21A1D2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Which is the best country to visit?</h1>
+    <div class="options-container">
+        <button class="option" id="option1" data-qid="1" data-field="VA">Option 1</button>
+        <button class="option" id="option2" data-qid="1" data-field="VB">Option 2</button>
+        <button class="option" id="option3" data-qid="1" data-field="VC">Option 3</button>
+        <button class="option" id="option4" data-qid="1" data-field="VD">Option 4</button>
+    </div>
+
+    <script>
+        document.querySelectorAll('.option').forEach(button => {
+            fetch('http://localhost:5500/api/get-options?qid=1')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update button text with actual option values
+                        document.getElementById('option1').textContent = data.options.OA;
+                        document.getElementById('option2').textContent = data.options.OB;
+                        document.getElementById('option3').textContent = data.options.OC;
+                        document.getElementById('option4').textContent = data.options.OD;
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(err => {
+                    console.error('Error fetching options:', err);
+                    alert('An error occurred while fetching options. Please try again.');
+                });
+            button.addEventListener('click', function() {
+                const field = this.getAttribute('data-field');
+                const qid = this.getAttribute('data-qid');
+    
+                fetch(`http://localhost:5500/api/increment-vote`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ qid, field })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(data.message); // Show success message
+                        window.location.href = 'dashboard1.html'; // Redirect to dashboard1 after alert
+                    } else {
+                        alert(data.message); // Show error message
+                        window.location.href = 'dashboard1.html'; // Redirect to dashboard1 after alert
+                    }
+                })
+                .catch(err => {
+                    console.error('Error incrementing vote:', err);
+                    alert('An error occurred while voting. Please try again.');
+                    window.location.href = 'dashboard1.html'; // Redirect to dashboard1 after alert
+                });
+            });
+        });
+    </script>
+    <div style="margin-top: 20px;">
+        <a href="D1.html" style="text-decoration: none; color: #2196F3;">View Option Descriptions</a>
+    </div>
+</body>
+</html>

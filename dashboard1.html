@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOTERS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .header {
+            font-size: 40px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+        .username {
+            font-size: 24px;
+            color: #007bff;
+            margin-top: 10px;
+        }
+        .choose-text {
+            font-size: 22px;
+            color: #555;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .line {
+            width: 70%;
+            margin: 10px auto;
+            border-bottom: 2px solid #ddd;
+        }
+        .questions-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;  /* Use gap to manage space between items */
+            width: 100%;
+            max-width: 900px;  /* Max width for larger screens */
+            padding: 0 10px;  /* Padding to prevent content touching edges */
+        }
+        .question-box {
+            background-color: #d0f0fd;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        .question-box:hover {
+            background-color: #a3d8f7;
+        }
+        .question-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-right: 20px;
+        }
+        .question-text {
+            font-size: 26px;  /* Slightly larger text for better readability */
+            color: #333;
+            text-align: center;
+            flex-grow: 1;  /* Allow the text to take remaining space */
+        }
+        .question-link {
+            font-size: 18px;
+            color: #0066cc;
+            text-decoration: none;  /* Remove underline by default */
+            margin-left: 20px;
+        }
+        .question-link:hover {
+            text-decoration: underline;  /* Underline on hover */
+        }
+        .go-back-btn {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .go-back-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">WELCOME VOTERS</div>
+    <div class="username" id="username"></div> <!-- Display the username here -->
+    <div class="choose-text">Choose your preferred questions:</div>
+    <div class="line"></div>
+
+    <div class="questions-container">
+        <div class="question-box">
+            <span class="question-number">Q1</span>
+            <span class="question-text">Which is the best country to visit?</span>
+            <a href="state.html" class="question-link" target="_blank">Answer Question</a>
+        </div>
+        <div class="question-box">
+            <span class="question-number">Q2</span>
+            <span class="question-text">Which is the best sport in terms of skill ?</span>
+            <a href="state2.html" class="question-link" target="_blank">Answer Question</a>
+        </div>
+        <div class="question-box">
+            <span class="question-number">Q3</span>
+            <span class="question-text">Which is the best Indian state to visit ?</span>
+            <a href="state3.html" class="question-link" target="_blank">Answer Question</a>
+        </div>
+        <div class="question-box">
+            <span class="question-number">Q4</span>
+            <span class="question-text">Which is the best IPL team ?</span>
+            <a href="state4.html" class="question-link" target="_blank">Answer Question</a>
+        </div>
+        <div class="question-box">
+            <span class="question-number">Q5</span>
+            <span class="question-text">Which is the best Indian singer ?</span>
+            <a href="state5.html" class="question-link" target="_blank">Answer Question</a>
+        </div>
+    </div>
+
+    <!-- Go Back Button -->
+    <button class="go-back-btn" onclick="window.history.back()">Go Back</button>
+
+    <script>
+        // Get the username from the URL
+        function getUsernameFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('username');
+        }
+
+        // Display the username on the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            const username = getUsernameFromURL();
+            document.getElementById('username').textContent = username ? `Welcome, ${username}!` : 'Welcome, Guest!';
+        });
+    </script>
+</body>
+</html>
